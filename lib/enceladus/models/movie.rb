@@ -2,7 +2,7 @@ class Enceladus::Movie < Enceladus::ApiResource
   RESOURCE_ATTRIBUTES = [ :adult, :backdrop_path, :id, :original_title, :release_date, :poster_path, :youtube_trailers,
     :popularity, :title, :vote_average, :vote_count, :belongs_to_collection, :budget, :homepage, :imdb_id, :releases,
     :overview, :revenue, :runtime, :status, :tagline, :genres, :production_companies, :production_countries, :spoken_languages,
-    :rating ].map(&:freeze).freeze
+    :rating, :cast ].map(&:freeze).freeze
 
   attr_accessor *RESOURCE_ATTRIBUTES
 
@@ -28,6 +28,10 @@ class Enceladus::Movie < Enceladus::ApiResource
 
   def self.top_rated
     Enceladus::MovieCollection.new("movie/top_rated")
+  end
+
+  def similar
+    Enceladus::MovieCollection.new("movie/#{id}/similar", Enceladus::Movie.default_params)
   end
 
   def reload
@@ -74,6 +78,18 @@ class Enceladus::Movie < Enceladus::ApiResource
     if !trailers_from_response.nil? && !trailers_from_response.youtube.nil?
       @youtube_trailers = Enceladus::YouTubeTrailer.build_collection(trailers_from_response.youtube)
     end
+  end
+
+  def cast
+    @cast ||= Enceladus::Cast.build_collection(Enceladus::Requester.get("movie/#{id}/credits").cast)
+  end
+
+  def backdrop_urls
+    Enceladus::Configuration::Image.instance.url_for("backdrop", backdrop_path)
+  end
+
+  def poster_urls
+    Enceladus::Configuration::Image.instance.url_for("poster", poster_path)
   end
 
 private

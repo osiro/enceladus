@@ -221,6 +221,26 @@ describe Enceladus::Movie do
     end
   end
 
+  describe "#similar" do
+    subject(:movies) { movie.similar }
+    let(:response) { MovieCollectionResponse.new }
+    let(:movie) { Enceladus::Movie.new }
+
+    before do
+      movie.id = 123
+      stub_request(:get, /api.themoviedb.org\/3\/movie\/#{movie.id}\/similar/).to_return(status: 200, body: response.to_json)
+    end
+
+    it "should return a Enceladus::MovieCollection" do
+      is_expected.to be_kind_of(Enceladus::MovieCollection)
+    end
+
+    it "should fetch similar movies" do
+      movie = response.results.first
+      expect(movies.all.map(&:id)).to include response.results.first.id
+    end
+  end
+
   describe ".find_by_title" do
     subject(:movies) { Enceladus::Movie.find_by_title(title) }
     let(:response) { MovieCollectionResponse.new }
@@ -386,6 +406,64 @@ describe Enceladus::Movie do
       let(:account) { nil }
 
       it { expect{ subject }.to raise_error(Enceladus::Exception::ArgumentError) }
+    end
+  end
+
+  describe "#cast" do
+    subject(:cast) { movie.cast }
+    let(:movie) { Enceladus::Movie.new }
+    let(:movie_id) { 123 }
+    let(:response) { CreditsCollectionResponse.new }
+    let(:cast_response) { response.cast.first }
+
+    before do
+      movie.id = movie_id
+      stub_request(:get, "https://api.themoviedb.org/3/movie/#{movie_id}/credits?api_key=token").
+        to_return(status: 200, body: response.to_json)
+    end
+
+    it "should return an array of Enceladus::Cast" do
+      expect(cast.map(&:class)).to eq([Enceladus::Cast])
+    end
+
+    describe "single cast resource" do
+      subject { cast.first }
+
+      [:cast_id, :character, :credit_id, :id, :name, :order, :profile_path].each do |attr|
+        it "should set cast #{attr}" do
+          expect(subject.send(attr)).to eq(cast_response.send(attr))
+        end
+      end
+    end
+  end
+
+  describe "#backdrop_urls" do
+    subject { movie.backdrop_urls }
+    let(:movie) { Enceladus::Movie.new }
+
+    before do
+      movie.backdrop_path = "/pamela_butt.jpeg"
+      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+      Enceladus::Configuration::Image.instance.setup!
+    end
+
+    it "should return profile url" do
+      is_expected.to eq(["http://test.com/w300#{movie.backdrop_path}", "http://test.com/w780#{movie.backdrop_path}", "http://test.com/w1280#{movie.backdrop_path}", "http://test.com/original#{movie.backdrop_path}"])
+    end
+  end
+
+  describe "#poster_urls" do
+    subject { movie.poster_urls }
+    let(:movie) { Enceladus::Movie.new }
+
+    before do
+      movie.poster_path = "/vivi_fernandes.jpeg"
+      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+      Enceladus::Configuration::Image.instance.setup!
+    end
+
+    it "should return profile url" do
+      is_expected.to eq(["http://test.com/w92#{movie.poster_path}", "http://test.com/w154#{movie.poster_path}", "http://test.com/w185#{movie.poster_path}", "http://test.com/w342#{movie.poster_path}", "http://test.com/w500#{movie.poster_path}", "http://test.com/w780#{movie.poster_path}", "http://test.com/original#{movie.poster_path}"])
     end
   end
 end
