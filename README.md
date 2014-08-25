@@ -2,6 +2,7 @@
 
 [![Code Climate](https://codeclimate.com/github/osiro/enceladus/badges/gpa.svg)](https://codeclimate.com/github/osiro/enceladus)
 [![Build Status](https://travis-ci.org/osiro/enceladus.svg?branch=master)](https://travis-ci.org/osiro/enceladus)
+[![Coverage Status](https://coveralls.io/repos/osiro/enceladus/badge.png?branch=master)](https://coveralls.io/r/osiro/enceladus?branch=master)
 
 TODO: Write a gem description
 
