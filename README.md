@@ -1,6 +1,7 @@
 # Enceladus
 
 [![Code Climate](https://codeclimate.com/github/osiro/enceladus/badges/gpa.svg)](https://codeclimate.com/github/osiro/enceladus)
+[![Build Status](https://travis-ci.org/osiro/enceladus.svg?branch=master)](https://travis-ci.org/osiro/enceladus)
 
 TODO: Write a gem description
 
