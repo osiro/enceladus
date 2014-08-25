@@ -1,5 +1,7 @@
 # Enceladus
 
+[![Code Climate](https://codeclimate.com/github/osiro/enceladus/badges/gpa.svg)](https://codeclimate.com/github/osiro/enceladus)
+
 TODO: Write a gem description
 
 ## Installation
