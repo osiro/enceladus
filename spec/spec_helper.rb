@@ -1,6 +1,5 @@
-require 'simplecov'
-
-SimpleCov.start do
+require 'coveralls'
+Coveralls.wear! do
   add_filter "/support/responses"
 end
 
