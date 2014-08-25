@@ -3,36 +3,94 @@ class Enceladus::Account < Enceladus::ApiResource
   RESOURCE_ATTRIBUTES = [:id, :include_adult, :iso_3166_1, :iso_639_1, :name, :username, :session_id].map(&:freeze).freeze
   attr_accessor *RESOURCE_ATTRIBUTES
 
+  # Responsible for authenticating TMDb users.
+  # Authentication of users follows the workflow: https://www.themoviedb.org/documentation/api/sessions
+  # This method hits the following api endpoints:
+  #
+  # - http://api.themoviedb.org/3/authentication/token/new
+  # - http://api.themoviedb.org/3/authentication/token/validate_with_login
+  # - http://api.themoviedb.org/3/authentication/session/new
+  # - http://api.themoviedb.org/3/account
+  #
+  # Example:
+  #
+  #   Enceladus::Account.new("bruna_ferraz", "dajhhd")
+  #
   def initialize(username, password)
     self.username = username
     self.password = password
     start_authentication_workflow
   end
 
+  # Adds movie to accounts favorite list.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("bruna_ferraz", "dajhhd")
+  #   account.favorite_movie!(23444)
+  #
   def favorite_movie!(movie_id)
     toggle_favorite_movie(movie_id, true)
   end
 
+  # Removes movie to accounts favorite list.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("bruna_ferraz", "dajhhd")
+  #   account.unfavorite_movie!(23444)
+  #
   def unfavorite_movie!(movie_id)
     toggle_favorite_movie(movie_id, false)
   end
 
+  # Adds movie to accounts watchlist.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("bruna_ferraz", "dajhhd")
+  #   account.add_to_watchlist!(23444)
+  #
   def add_to_watchlist!(movie_id)
     toggle_movie_watchlist(movie_id, true)
   end
 
+  # Removes movie to accounts watchlist.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("bruna_ferraz", "dajhhd")
+  #   account.remove_from_watchlist!(23444)
+  #
   def remove_from_watchlist!(movie_id)
     toggle_movie_watchlist(movie_id, false)
   end
 
+  # Return a list of account's favorite movies.
+  # The returned movies are wrapped into a Enceladus::MovieCollection.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("belinha", "dajhhd")
+  #   account.favorite_movies
+  #
   def favorite_movies
     Enceladus::MovieCollection.new("account/#{id}/favorite/movies", { session_id: session_id }) if authenticated?
   end
 
+  # Return a list of account's rated movies.
+  # The returned movies are wrapped into a Enceladus::MovieCollection.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("belinha", "dajhhd")
+  #   account.rated_movies
+  #
   def rated_movies
     Enceladus::MovieCollection.new("account/#{id}/rated/movies", { session_id: session_id }) if authenticated?
   end
 
+  # Return the account's watchlist
+  # The returned movies are wrapped into a Enceladus::MovieCollection.
+  # Example:
+  #
+  #   account = Enceladus::Account.new("belinha", "hjgsss")
+  #   account.watchlist
+  #
   def watchlist
     Enceladus::MovieCollection.new("account/#{id}/watchlist/movies", { session_id: session_id }) if authenticated?
   end

@@ -3,6 +3,14 @@ require 'ostruct'
 
 class Enceladus::Requester
   class << self
+    # Makes a get request to one of the TMDb API endpoints.
+    # Example:
+    #
+    #   Enceladus::Requester.get("account", { session_id: "43462867" })
+    #
+    # Performing this action might results in RestClient::Exception.
+    # Check out https://github.com/rest-client/rest-client#exceptions-see-wwww3orgprotocolsrfc2616rfc2616-sec10html for more details.
+    #
     def get(action, params={})
       url = api.url_for(action, params)
       perform_request do
@@ -10,6 +18,16 @@ class Enceladus::Requester
       end
     end
 
+    # Makes a post request to TMDb API endpoints.
+    # Example:
+    #
+    #   params = { session_id: "77678687" }
+    #   form_data = { media_type: "movie", media_id: 31231, watchlist: true }
+    #   Enceladus::Requester.post("account/777/watchlist", params, form_data)
+    #
+    # Performing this action might results in RestClient::Exception.
+    # Check out https://github.com/rest-client/rest-client#exceptions-see-wwww3orgprotocolsrfc2616rfc2616-sec10html for more details.
+    #
     def post(action, params={}, form_data={})
       url = api.url_for(action, params)
       perform_request do
@@ -22,6 +40,12 @@ class Enceladus::Requester
       Enceladus::Configuration::Api.instance
     end
 
+    # Handles request calls exceptions.
+    # Performing RestClient actions might results in RestClient::Exception.
+    # Check out https://github.com/rest-client/rest-client#exceptions-see-wwww3orgprotocolsrfc2616rfc2616-sec10html for more details.
+    #
+    # So, this method is responsible for handling RestClient::Exception, parsing the error message to finally raise Enceladus::Exception::Api.
+    #
     def perform_request(&block)
       begin
         block.call
