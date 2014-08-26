@@ -7,7 +7,7 @@
 
 A ruby wrapper for [TMDb](www.themoviedb.org).
 
-|[Wiki](https://github.com/osiro/enceladus/wiki)|[Documentation](http://www.rubydoc.info/github/osiro/enceladus/master/frames)|
+| [Wiki](https://github.com/osiro/enceladus/wiki) | [Documentation](http://www.rubydoc.info/github/osiro/enceladus/master/frames) |
 
 ## Installation
 
