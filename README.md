@@ -7,6 +7,8 @@
 
 A ruby wrapper for [TMDb](www.themoviedb.org).
 
+|[Wiki](https://github.com/osiro/enceladus/wiki)|[Documentation](http://www.rubydoc.info/github/osiro/enceladus/master/frames)|
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -23,7 +25,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Have a look at some [usage examples](https://github.com/osiro/enceladus/wiki/Usage) and check out the [docs](http://www.rubydoc.info/github/osiro/enceladus/master/frames) too.
 
 ## Contributing
 
