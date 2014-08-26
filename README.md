@@ -26,7 +26,7 @@ Or install it yourself as:
 
 ## Usage
 
-You first need to [sign up](https://www.themoviedb.org/account/signup) to The Movie Database and them request a new api key.
+You first need to [sign up](https://www.themoviedb.org/account/signup) to The Movie Database and then request a new api key.
 
 Have a look at some [usage examples](https://github.com/osiro/enceladus/wiki/Usage) and check out the [docs](http://www.rubydoc.info/github/osiro/enceladus/master/frames) too.
 
