@@ -1,5 +1,5 @@
-require 'coveralls'
-Coveralls.wear! do
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start do
   add_filter "/support/responses"
 end
 
