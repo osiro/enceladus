@@ -1,5 +1,5 @@
-require 'coveralls'
-Coveralls.wear! do
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start do
   add_filter "/support/responses"
 end
 
@@ -13,6 +13,8 @@ Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |file| require file }
 
 RSpec.configure do |c|
   c.mock_with :rspec
+
+  WebMock.disable_net_connect!(allow: "codeclimate.com")
 
   c.before do
     Enceladus::Configuration::Api.instance.send(:api_key=, "token")
