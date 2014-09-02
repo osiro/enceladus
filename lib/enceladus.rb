@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + "/enceladus/version"
 require File.dirname(__FILE__) + "/enceladus/exceptions"
+require File.dirname(__FILE__) + "/enceladus/logger"
 require File.dirname(__FILE__) + "/enceladus/requester"
 require File.dirname(__FILE__) + "/enceladus/configuration/api"
 require File.dirname(__FILE__) + "/enceladus/configuration/image"

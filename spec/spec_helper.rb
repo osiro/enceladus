@@ -1,5 +1,6 @@
 require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start do
+SimpleCov.start do
+  formatter SimpleCov::Formatter::MultiFormatter[SimpleCov::Formatter::HTMLFormatter,CodeClimate::TestReporter::Formatter]
   add_filter "/support/responses"
 end
 
@@ -16,7 +17,11 @@ RSpec.configure do |c|
 
   WebMock.disable_net_connect!(allow: "codeclimate.com")
 
-  c.before do
+  c.before do |example|
     Enceladus::Configuration::Api.instance.send(:api_key=, "token")
+
+    unless example.metadata[:logger_test]
+      Enceladus::Logger.logger_output = nil
+    end
   end
 end

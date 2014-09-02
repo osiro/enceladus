@@ -21,3 +21,5 @@ tmp
 *.a
 mkmf.log
 run.rb
+run
+*.log

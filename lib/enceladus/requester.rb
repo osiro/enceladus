@@ -13,8 +13,9 @@ class Enceladus::Requester
     #
     def get(action, params={})
       url = api.url_for(action, params)
+      Enceladus::Logger.log.info { "About to request: #{url}" }
       perform_request do
-        JSON.parse(RestClient.get(url, request_headers), object_class: OpenStruct)
+        parse_response(RestClient.get(url, request_headers))
       end
     end
 
@@ -30,8 +31,9 @@ class Enceladus::Requester
     #
     def post(action, params={}, form_data={})
       url = api.url_for(action, params)
+      Enceladus::Logger.log.info { "About to request: #{url}" }
       perform_request do
-        JSON.parse(RestClient.post(url, form_data.to_json, request_headers), object_class: OpenStruct)
+        parse_response(RestClient.post(url, form_data.to_json, request_headers))
       end
     end
 
@@ -63,6 +65,15 @@ class Enceladus::Requester
 
     def request_headers
       { accept: 'application/json', content_type: 'application/json' }
+    end
+
+    def parse_response(response_body)
+      begin
+        Enceladus::Logger.log.info { "Response: #{JSON.pretty_generate(JSON.parse(response_body))}" }
+        JSON.parse(response_body, object_class: OpenStruct)
+      rescue JSON::ParserError => e
+        raise Enceladus::Exception::JsonParseError.new("Response body could not be parsed: #{e.message}")
+      end
     end
   end
 end
