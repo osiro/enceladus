@@ -38,6 +38,7 @@ module Enceladus::Configuration
       self.poster_sizes = []
       self.profile_sizes = []
       self.still_sizes = []
+      self.include_image_language = "en"
       self
     end
 

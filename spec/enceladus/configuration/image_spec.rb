@@ -3,6 +3,12 @@ require 'spec_helper'
 describe Enceladus::Configuration::Image do
   let(:configuration) { ConfigurationResponse.new }
 
+  around do |example|
+    Singleton.__init__(Enceladus::Configuration::Image)
+    example.run
+    Singleton.__init__(Enceladus::Configuration::Image)
+  end
+
   describe "#setup!" do
     subject(:image) { Enceladus::Configuration::Image.instance.setup! }
 

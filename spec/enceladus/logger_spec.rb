@@ -4,7 +4,9 @@ require 'singleton'
 describe Enceladus::Logger, logger_test: true do
   let(:logger) { Enceladus::Logger.instance }
 
-  before do
+  around do |example|
+    Singleton.__init__(Enceladus::Logger)
+    example.run
     Singleton.__init__(Enceladus::Logger)
   end
 

@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Enceladus::Configuration::Api do
+
+  around do |example|
+    Singleton.__init__(Enceladus::Configuration::Api)
+    example.run
+    Singleton.__init__(Enceladus::Configuration::Api)
+  end
+
   describe "#connect" do
     subject { Enceladus::Configuration::Api.instance.connect(api_key) }
     let(:api_key) { "token" }

@@ -20,7 +20,7 @@ class Enceladus::Movie < Enceladus::ApiResource
   #   Enceladus::Movie.find_by_title("emmanuelle")
   #
   def self.find_by_title(title)
-    Enceladus::MovieCollection.new("search/movie", { query: title })
+    Enceladus::MovieCollection.new("search/movie", default_params.merge(query: title))
   end
 
   # Returns a paginated collection of upcoming movies.
@@ -156,7 +156,8 @@ private
   end
 
   def self.default_params
-    include_image_language = Enceladus::Configuration::Image.instance.include_image_language
-    { append_to_response: "releases,trailers", include_image_language: include_image_language }
+    language = Enceladus::Configuration::Image.instance.include_image_language
+    adult = Enceladus::Configuration::Api.instance.include_adult
+    { append_to_response: "releases,trailers", include_image_language: language, language: language, include_adult: adult }
   end
 end

@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Enceladus::Movie do
 
+  before do
+    stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+    Enceladus.connect("token") # start configuration with default values
+  end
+
   describe "#find" do
     subject(:movie) { Enceladus::Movie.find(id) }
     let(:id) { 777 }
@@ -247,7 +252,7 @@ describe Enceladus::Movie do
     let(:title) { "Banana" }
 
     before do
-      stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=token&page=1&query=#{title}")
+      stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=token&append_to_response=releases,trailers&include_adult=false&include_image_language=en&language=en&page=1&query=#{title}")
         .to_return(status: 200, body: response.to_json)
     end
 
@@ -443,8 +448,6 @@ describe Enceladus::Movie do
 
     before do
       movie.backdrop_path = "/pamela_butt.jpeg"
-      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
-      Enceladus::Configuration::Image.instance.setup!
     end
 
     it "should return profile url" do
@@ -458,8 +461,6 @@ describe Enceladus::Movie do
 
     before do
       movie.poster_path = "/vivi_fernandes.jpeg"
-      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
-      Enceladus::Configuration::Image.instance.setup!
     end
 
     it "should return profile url" do
