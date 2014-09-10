@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Enceladus::Account do
 
-  let(:request_token_response) { RequestTokenResponse.new }
-  let(:authentication_response) { AuthenticationResponse.new }
-  let(:session_response) { SessionResponse.new }
-  let(:account_response) { AccountResponse.new }
+  let(:request_token_response) { build(:request_token_response) }
+  let(:authentication_response) { build(:authentication_response) }
+  let(:session_response) { build(:session_response) }
+  let(:account_response) { build(:account_response) }
   let(:username) { "ashlynn_brooke" }
   let(:password) { "corinthians" }
 
@@ -110,15 +110,11 @@ describe Enceladus::Account do
     let(:account) { Enceladus::Account.new(username, password) }
 
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
-    let(:response) { MovieCollectionResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
+    let(:response) { build(:movie_collection_response, results: [movie_1, movie_2]) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
-      response.results = [movie_1, movie_2]
-
       stub_request(:get, "https://api.themoviedb.org/3/account/#{account.id}/favorite/movies?api_key=token&page=1&session_id=#{session_response.session_id}").
         to_return(status: 200, body: response.to_json)
     end
@@ -133,15 +129,11 @@ describe Enceladus::Account do
     let(:account) { Enceladus::Account.new(username, password) }
 
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
-    let(:response) { MovieCollectionResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
+    let(:response) { build(:movie_collection_response, results: [movie_1, movie_2]) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
-      response.results = [movie_1, movie_2]
-
       stub_request(:get, "https://api.themoviedb.org/3/account/#{account.id}/rated/movies?api_key=token&page=1&session_id=#{session_response.session_id}").
         to_return(status: 200, body: response.to_json)
     end
@@ -156,15 +148,11 @@ describe Enceladus::Account do
     let(:account) { Enceladus::Account.new(username, password) }
 
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
-    let(:response) { MovieCollectionResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
+    let(:response) { build(:movie_collection_response, results: [movie_1, movie_2]) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
-      response.results = [movie_1, movie_2]
-
       stub_request(:get, "https://api.themoviedb.org/3/account/#{account.id}/watchlist/movies?api_key=token&page=1&session_id=#{session_response.session_id}").
         to_return(status: 200, body: response.to_json)
     end

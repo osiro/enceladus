@@ -5,7 +5,7 @@ describe Enceladus do
   describe ".connect" do
     subject { Enceladus.connect(api_key) }
     let(:api_key) { "token" }
-    let(:configuration) { ConfigurationResponse.new }
+    let(:configuration) { build(:configuration_response) }
 
     before do
       stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: configuration.to_json)

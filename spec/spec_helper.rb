@@ -9,15 +9,19 @@ require 'json'
 require 'webmock/rspec'
 require 'byebug'
 require 'enceladus'
+require 'factory_girl'
+require 'faker'
+require File.dirname(__FILE__) + "/support/api_resource"
 
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |file| require file }
+RSpec.configure do |config|
+  config.mock_with :rspec
 
-RSpec.configure do |c|
-  c.mock_with :rspec
+  config.include FactoryGirl::Syntax::Methods
+  FactoryGirl.find_definitions
 
   WebMock.disable_net_connect!(allow: "codeclimate.com")
 
-  c.before do |example|
+  config.before do |example|
     Enceladus::Configuration::Api.instance.send(:api_key=, "token")
 
     unless example.metadata[:logger_test]

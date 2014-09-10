@@ -26,4 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0', '>= 3.0.0'
   spec.add_development_dependency 'webmock', '~> 1.18', '>= 1.18.0'
   spec.add_development_dependency 'codeclimate-test-reporter', '~> 0.4', '>= 0.4.0'
+  spec.add_development_dependency 'factory_girl', '~> 4.0', '>= 4.0.0'
+  spec.add_development_dependency 'faker', '~> 1.0', '>= 1.0.0'
 end

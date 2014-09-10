@@ -3,17 +3,16 @@ require 'spec_helper'
 describe Enceladus::Movie do
 
   before do
-    stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+    stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: build(:configuration_response).to_json)
     Enceladus.connect("token") # start configuration with default values
   end
 
   describe "#find" do
-    subject(:movie) { Enceladus::Movie.find(id) }
-    let(:id) { 777 }
-    let(:movie_response) { MovieResponse.new }
+    subject(:movie) { Enceladus::Movie.find(movie_response.id) }
+    let(:movie_response) { build(:movie_response) }
 
     before do
-      stub_request(:get, /api.themoviedb.org\/3\/movie\/777/).
+      stub_request(:get, /api.themoviedb.org\/3\/movie\/#{movie_response.id}/).
         to_return(status: 200, body: movie_response.to_json)
     end
 
@@ -209,7 +208,7 @@ describe Enceladus::Movie do
   [:upcoming, :now_playing, :popular, :top_rated].each do |endpoint|
     describe ".#{endpoint}" do
       subject(:movies) { Enceladus::Movie.send(endpoint) }
-      let(:response) { MovieCollectionResponse.new }
+      let(:response) { build(:movie_collection_response) }
 
       before do
         stub_request(:get, /api.themoviedb.org\/3\/movie\/#{endpoint}/).to_return(status: 200, body: response.to_json)
@@ -228,7 +227,7 @@ describe Enceladus::Movie do
 
   describe "#similar" do
     subject(:movies) { movie.similar }
-    let(:response) { MovieCollectionResponse.new }
+    let(:response) { build(:movie_collection_response) }
     let(:movie) { Enceladus::Movie.new }
 
     before do
@@ -248,7 +247,7 @@ describe Enceladus::Movie do
 
   describe ".find_by_title" do
     subject(:movies) { Enceladus::Movie.find_by_title(title) }
-    let(:response) { MovieCollectionResponse.new }
+    let(:response) { build(:movie_collection_response) }
     let(:title) { "Banana" }
 
     before do
@@ -271,7 +270,7 @@ describe Enceladus::Movie do
 
     let(:movie) { Enceladus::Movie.new }
     let(:movie_id) { 1234 }
-    let(:response) { MovieResponse.new }
+    let(:response) { build(:movie_response, id: movie_id) }
 
     before do
       movie.id = movie_id
@@ -359,10 +358,11 @@ describe Enceladus::Movie do
 
     context "when rating with permanent account" do
       let(:account) { Enceladus::Account.new(username, password) }
-      let(:request_token_response) { RequestTokenResponse.new }
-      let(:authentication_response) { AuthenticationResponse.new }
-      let(:session_response) { SessionResponse.new }
-      let(:account_response) { AccountResponse.new }
+
+      let(:request_token_response) { build(:request_token_response) }
+      let(:authentication_response) { build(:authentication_response) }
+      let(:session_response) { build(:session_response) }
+      let(:account_response) { build(:account_response) }
       let(:username) { "ashlynn_brooke" }
       let(:password) { "corinthians" }
 
@@ -391,7 +391,7 @@ describe Enceladus::Movie do
 
     context "when rating with guest account" do
       let(:account) { Enceladus::GuestAccount.new }
-      let(:guest_account_response) { GuestAccountResponse.new }
+      let(:guest_account_response) { build(:guest_account_response) }
 
       before do
         stub_request(:get, "https://api.themoviedb.org/3/authentication/guest_session/new?api_key=token").
@@ -418,7 +418,7 @@ describe Enceladus::Movie do
     subject(:cast) { movie.cast }
     let(:movie) { Enceladus::Movie.new }
     let(:movie_id) { 123 }
-    let(:response) { CreditsCollectionResponse.new }
+    let(:response) { build(:credits_collection_response) }
     let(:cast_response) { response.cast.first }
 
     before do

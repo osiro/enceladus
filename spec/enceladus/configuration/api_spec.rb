@@ -11,11 +11,12 @@ describe Enceladus::Configuration::Api do
   describe "#connect" do
     subject { Enceladus::Configuration::Api.instance.connect(api_key) }
     let(:api_key) { "token" }
+    let(:error_response) { build(:error_response) }
 
     context "when the provided api_key is not valid" do
       before do
         stub_request(:get, /api.themoviedb.org\/3\/configuration/).
-          to_return(status: 401, body: ErrorResponse.new(7, "Invalid API key: You must be granted a valid key.").to_json)
+          to_return(status: 401, body: error_response.to_json)
       end
 
       it "should set Enceladus::Configuration::Api api_key as nil" do
@@ -34,9 +35,10 @@ describe Enceladus::Configuration::Api do
     end
 
     context "when the provided api_key is valid" do
+      let(:configuration_response) { build(:configuration_response) }
       before do
         stub_request(:get, /api.themoviedb.org\/3\/configuration/).
-          to_return(status: 200, body: ConfigurationResponse.new.to_json)
+          to_return(status: 200, body: configuration_response.to_json)
       end
 
       it "should save Enceladus::Configuration::Api api_key" do

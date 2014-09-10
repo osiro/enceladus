@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Enceladus::Configuration::Image do
-  let(:configuration) { ConfigurationResponse.new }
+  let(:configuration) { build(:configuration_response) }
 
   around do |example|
     Singleton.__init__(Enceladus::Configuration::Image)

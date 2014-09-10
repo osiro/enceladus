@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Enceladus::ProductionCompany do
   before do
-    stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+    stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: build(:configuration_response).to_json)
     Enceladus.connect("token") # start configuration with default values
   end
 
   describe ".find_by_name" do
     subject(:companies) { Enceladus::ProductionCompany.find_by_name("marvel") }
-    let(:collection_response) { ProductionCompanyCollectionResponse.new }
+    let(:collection_response) { build(:production_company_collection_response) }
     let(:company_from_response) { collection_response.results.first }
 
     before do
@@ -30,7 +30,7 @@ describe Enceladus::ProductionCompany do
 
   describe ".find" do
     subject(:company) { Enceladus::ProductionCompany.find(123) }
-    let(:company_from_response) { ProductionCompanyResponse.new }
+    let(:company_from_response) { build(:production_company_response) }
     before do
       stub_request(:get, "https://api.themoviedb.org/3/company/123?api_key=token&append_to_response=description,headquarters,homepage,id,logo_path,name&language=en").
         to_return(status: 200, body: company_from_response.to_json)
@@ -66,7 +66,7 @@ describe Enceladus::ProductionCompany do
   describe "#reload" do
     subject(:reload) { company.reload }
     let(:company) { Enceladus::ProductionCompany.new }
-    let(:company_from_response) { ProductionCompanyResponse.new }
+    let(:company_from_response) { build(:production_company_response, id: company.id) }
 
     before do
       company.id = 123
@@ -88,7 +88,7 @@ describe Enceladus::ProductionCompany do
   describe "#movies" do
     subject(:movies) { company.movies }
     let(:company) { Enceladus::ProductionCompany.new }
-    let(:response) { MovieCollectionResponse.new }
+    let(:response) { build(:movie_collection_response) }
     let(:movie_from_response) { response.results.first }
 
     before do

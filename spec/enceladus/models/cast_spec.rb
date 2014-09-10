@@ -7,7 +7,7 @@ describe Enceladus::Cast do
 
     before do
       cast.profile_path = "/aylar_lie.jpeg"
-      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: ConfigurationResponse.new.to_json)
+      stub_request(:get, /api.themoviedb.org\/3\/configuration/).to_return(status: 200, body: build(:configuration_response).to_json)
       Enceladus::Configuration::Image.instance.setup!
     end
 

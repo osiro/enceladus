@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Enceladus::GuestAccount do
 
-  let(:guest_account_response) { GuestAccountResponse.new }
+  let(:guest_account_response) { build(:guest_account_response) }
 
   before do
     stub_request(:get, "https://api.themoviedb.org/3/authentication/guest_session/new?api_key=token").

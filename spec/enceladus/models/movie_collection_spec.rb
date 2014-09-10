@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Enceladus::MovieCollection do
-  let(:response) { MovieCollectionResponse.new }
+  let(:response) { build(:movie_collection_response) }
   let(:path) { "movie/upcoming" }
   let(:params) { { test: 1 } }
 
@@ -164,12 +164,10 @@ describe Enceladus::MovieCollection do
   describe "#last" do
     subject { collection.last }
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
       response.results = [movie_1, movie_2]
       stub_request(:get, /api.themoviedb.org\/3\/movie\/upcoming/).to_return(status: 200, body: response.to_json)
     end
@@ -182,12 +180,10 @@ describe Enceladus::MovieCollection do
   describe "#first" do
     subject { collection.first }
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
       response.results = [movie_1, movie_2]
       stub_request(:get, /api.themoviedb.org\/3\/movie\/upcoming/).to_return(status: 200, body: response.to_json)
     end
@@ -200,12 +196,10 @@ describe Enceladus::MovieCollection do
   describe "#all" do
     subject { collection.all }
     let(:collection) { Enceladus::MovieCollection.new(path) }
-    let(:movie_1) { MovieCollectionResourceResponse.new }
-    let(:movie_2) { MovieCollectionResourceResponse.new }
+    let(:movie_1) { build(:movie_collection_resource_response) }
+    let(:movie_2) { build(:movie_collection_resource_response) }
 
     before do
-      movie_1.id = 111
-      movie_2.id = 222
       response.results = [movie_1, movie_2]
       stub_request(:get, /api.themoviedb.org\/3\/movie\/upcoming/).to_return(status: 200, body: response.to_json)
     end
