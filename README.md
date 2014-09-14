@@ -8,7 +8,7 @@
 
 A ruby wrapper for [TMDb](http://www.themoviedb.org).
 
-| [Wiki](https://github.com/osiro/enceladus/wiki) | [Documentation](http://www.rubydoc.info/github/osiro/enceladus/master/frames) |
+| [Wiki](https://github.com/osiro/enceladus/wiki) | [Enceladus Documentation](http://www.rubydoc.info/github/osiro/enceladus/master/frames) | [TMDb Api Documentation](http://docs.themoviedb.apiary.io/) | [TMDb Forum](https://www.themoviedb.org/talk) |
 
 ## Installation
 
