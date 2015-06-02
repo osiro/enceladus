@@ -7,7 +7,6 @@ end
 require 'rspec'
 require 'json'
 require 'webmock/rspec'
-require 'byebug'
 require 'enceladus'
 require 'factory_girl'
 require 'faker'

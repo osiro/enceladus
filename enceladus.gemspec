@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rest-client", "~> 1.8.0", '>= 1.8.0'
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.1 "
-  spec.add_development_dependency "byebug", "~> 4.0"
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'webmock', '~> 1.21'
   spec.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
