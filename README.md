@@ -5,6 +5,7 @@
 [![Test Coverage](https://codeclimate.com/github/osiro/enceladus/badges/coverage.svg)](https://codeclimate.com/github/osiro/enceladus)
 [![Dependency Status](https://gemnasium.com/osiro/enceladus.svg)](https://gemnasium.com/osiro/enceladus)
 [![Gem Version](https://badge.fury.io/rb/enceladus.svg)](http://badge.fury.io/rb/enceladus)
+[![security](https://hakiri.io/github/osiro/enceladus/master.svg)](https://hakiri.io/github/osiro/enceladus/master)
 
 A ruby wrapper for [TMDb](http://www.themoviedb.org).
 
