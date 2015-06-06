@@ -51,6 +51,8 @@ class Enceladus::Requester
     def perform_request(&block)
       begin
         block.call
+      rescue RestClient::SSLCertificateNotVerified
+        raise
       rescue RestClient::Exception => e
         message = ["The Movie DB API Exception:"]
         message << "@message=\"#{e.message}\""
