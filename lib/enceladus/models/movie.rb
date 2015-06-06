@@ -156,8 +156,9 @@ private
   end
 
   def self.default_params
-    language = Enceladus::Configuration::Image.instance.include_image_language
+    image_language = Enceladus::Configuration::Image.instance.include_image_language
+    language = Enceladus::Configuration::Api.instance.language
     adult = Enceladus::Configuration::Api.instance.include_adult
-    { append_to_response: "releases,trailers", include_image_language: language, language: language, include_adult: adult }
+    { append_to_response: "releases,trailers", include_image_language: image_language, language: language, include_adult: adult }
   end
 end

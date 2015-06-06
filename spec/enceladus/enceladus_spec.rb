@@ -26,6 +26,11 @@ describe Enceladus do
       expect(Enceladus::Configuration::Api.instance.include_adult).to eq(false)
     end
 
+    it "should set Enceladus::Configuration::Api#language as English" do
+      subject
+      expect(Enceladus::Configuration::Api.instance.language).to eq("en")
+    end
+
     describe "include_image_language" do
       context "when include_image_language is provided" do
         subject { Enceladus.connect(api_key, { include_image_language: include_image_language } ) }
@@ -40,12 +45,24 @@ describe Enceladus do
 
     describe "include_adult" do
       context "when include_adult is provided" do
-        subject { Enceladus.connect(api_key, { include_adult: true }) }
+        subject { Enceladus.connect(api_key, { include_adult: include_adult }) }
         let(:include_adult) { true }
 
         it "should set Enceladus::Configuration::Api#include_adult properly" do
           subject
           expect(Enceladus::Configuration::Api.instance.include_adult).to eq(include_adult)
+        end
+      end
+    end
+
+    describe "language" do
+      context "when language is provided" do
+        subject { Enceladus.connect(api_key, { language: language }) }
+        let(:language) { "en" }
+
+        it "should set Enceladus::Configuration::Api#language properly" do
+          subject
+          expect(Enceladus::Configuration::Api.instance.language).to eq(language)
         end
       end
     end

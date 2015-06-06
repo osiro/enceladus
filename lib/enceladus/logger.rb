@@ -43,14 +43,14 @@ class Enceladus::Logger < Logger
 
   # Changes the log level to DEBUG.
   # Example:
-  #   Enceladus::Loger.instance.enable_debug_mode!
+  #   Enceladus::Logger.instance.enable_debug_mode!
   def enable_debug_mode!
     self.level = Enceladus::Logger::DEBUG
   end
 
   # Disables the debug mode by changing the log level to ERROR.
   # Example:
-  #   Enceladus::Loger.instance.disable_debug_mode!
+  #   Enceladus::Logger.instance.disable_debug_mode!
   def disable_debug_mode!
     self.level = Enceladus::Logger::ERROR
   end

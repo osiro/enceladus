@@ -6,12 +6,13 @@ module Enceladus::Configuration
     include Singleton
 
     attr_reader :base_url, :version, :api_key
-    attr_accessor :include_adult
+    attr_accessor :include_adult, :language
 
     def initialize #:nodoc:#
       self.base_url = "https://api.themoviedb.org".freeze
       self.version = "3".freeze
       self.include_adult = false
+      self.language = "en"
     end
 
     # Fetches the TMDb account configuration.
