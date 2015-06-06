@@ -1,5 +1,5 @@
 require 'rest_client'
-require 'ostruct'
+require 'hashugar'
 
 class Enceladus::Requester
   class << self
@@ -70,7 +70,7 @@ class Enceladus::Requester
     def parse_response(response_body)
       begin
         Enceladus::Logger.log.info { "Response: #{JSON.pretty_generate(JSON.parse(response_body))}" }
-        JSON.parse(response_body, object_class: OpenStruct)
+        JSON.parse(response_body).to_hashugar
       rescue JSON::ParserError => e
         raise Enceladus::Exception::JsonParseError.new("Response body could not be parsed: #{e.message}")
       end

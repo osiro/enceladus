@@ -1,9 +1,10 @@
+require 'ostruct'
 class ApiResource < OpenStruct
   def to_h
-    hashfied_resource = super
+    hashfied_resource = self.marshal_dump
 
     hashfied_resource.keys.each do |attr|
-      if self.send(attr).kind_of?(ApiResource)
+      if self.public_send(attr).kind_of?(ApiResource)
         hashfied_resource[attr] = hashfied_resource[attr].to_h
       end
     end
@@ -15,7 +16,7 @@ class ApiResource < OpenStruct
     jsonfied_resource = to_h
 
     jsonfied_resource.keys.each do |attr|
-      if self.send(attr).kind_of?(ApiResource)
+      if self.public_send(attr).kind_of?(ApiResource)
         jsonfied_resource[attr] = jsonfied_resource[attr].to_h
       end
     end

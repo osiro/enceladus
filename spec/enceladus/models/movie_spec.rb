@@ -104,11 +104,11 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute id" do
-        expect(genre.id).to eq(genre_from_response[:id])
+        expect(genre.id).to eq(genre_from_response.id)
       end
 
       it "should set the attribute name" do
-        expect(genre.name).to eq(genre_from_response[:name])
+        expect(genre.name).to eq(genre_from_response.name)
       end
     end
 
@@ -120,11 +120,11 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute id" do
-        expect(production_company.id).to eq(production_company_from_response[:id])
+        expect(production_company.id).to eq(production_company_from_response.id)
       end
 
       it "should set the attribute name" do
-        expect(production_company.name).to eq(production_company_from_response[:name])
+        expect(production_company.name).to eq(production_company_from_response.name)
       end
     end
 
@@ -136,11 +136,11 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute iso_3166_1" do
-        expect(production_country.iso_3166_1).to eq(production_country_from_response[:iso_3166_1])
+        expect(production_country.iso_3166_1).to eq(production_country_from_response.iso_3166_1)
       end
 
       it "should set the attribute name" do
-        expect(production_country.name).to eq(production_country_from_response[:name])
+        expect(production_country.name).to eq(production_country_from_response.name)
       end
     end
 
@@ -152,11 +152,11 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute iso_639_1" do
-        expect(spoken_language.iso_639_1).to eq(spoken_language_from_response[:iso_639_1])
+        expect(spoken_language.iso_639_1).to eq(spoken_language_from_response.iso_639_1)
       end
 
       it "should set the attribute name" do
-        expect(spoken_language.name).to eq(spoken_language_from_response[:name])
+        expect(spoken_language.name).to eq(spoken_language_from_response.name)
       end
     end
 
@@ -168,15 +168,15 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute iso_3166_1" do
-        expect(release.iso_3166_1).to eq(release_from_response[:iso_3166_1])
+        expect(release.iso_3166_1).to eq(release_from_response.iso_3166_1)
       end
 
       it "should set the attribute certification" do
-        expect(release.certification).to eq(release_from_response[:certification])
+        expect(release.certification).to eq(release_from_response.certification)
       end
 
       it "should set the attribute release_date" do
-        expect(release.release_date).to eq(release_from_response[:release_date])
+        expect(release.release_date).to eq(release_from_response.release_date)
       end
     end
 
@@ -188,19 +188,19 @@ describe Enceladus::Movie do
       it { is_expected.to be_kind_of Array }
 
       it "should set the attribute name" do
-        expect(youtube_trailer.name).to eq(youtube_trailer_from_response[:name])
+        expect(youtube_trailer.name).to eq(youtube_trailer_from_response.name)
       end
 
       it "should set the attribute size" do
-        expect(youtube_trailer.size).to eq(youtube_trailer_from_response[:size])
+        expect(youtube_trailer.size).to eq(youtube_trailer_from_response.size)
       end
 
       it "should set the attribute source" do
-        expect(youtube_trailer.source).to eq(youtube_trailer_from_response[:source])
+        expect(youtube_trailer.source).to eq(youtube_trailer_from_response.source)
       end
 
       it "should set the attribute type" do
-        expect(youtube_trailer.type).to eq(youtube_trailer_from_response[:type])
+        expect(youtube_trailer.type).to eq(youtube_trailer_from_response.type)
       end
     end
   end
@@ -296,8 +296,8 @@ describe Enceladus::Movie do
       genre = movie.genres.first
       genre_from_response = response.genres.first
 
-      expect(genre.id).to eq(genre_from_response[:id])
-      expect(genre.name).to eq(genre_from_response[:name])
+      expect(genre.id).to eq(genre_from_response.id)
+      expect(genre.name).to eq(genre_from_response.name)
     end
 
     it "should fetch movie production companies" do
@@ -305,8 +305,8 @@ describe Enceladus::Movie do
       production_company = movie.production_companies.first
       production_company_from_response = response.production_companies.first
 
-      expect(production_company.id).to eq(production_company_from_response[:id])
-      expect(production_company.name).to eq(production_company_from_response[:name])
+      expect(production_company.id).to eq(production_company_from_response.id)
+      expect(production_company.name).to eq(production_company_from_response.name)
     end
 
     it "should fetch movie production countries" do
@@ -314,8 +314,8 @@ describe Enceladus::Movie do
       production_country = movie.production_countries.first
       production_country_from_response = response.production_countries.first
 
-      expect(production_country.iso_3166_1).to eq(production_country_from_response[:iso_3166_1])
-      expect(production_country.name).to eq(production_country_from_response[:name])
+      expect(production_country.iso_3166_1).to eq(production_country_from_response.iso_3166_1)
+      expect(production_country.name).to eq(production_country_from_response.name)
     end
 
     it "should fetch movie spoken languages" do
@@ -323,8 +323,8 @@ describe Enceladus::Movie do
       spoken_language = movie.spoken_languages.first
       spoken_language_from_response = response.spoken_languages.first
 
-      expect(spoken_language.iso_639_1).to eq(spoken_language_from_response[:iso_639_1])
-      expect(spoken_language.name).to eq(spoken_language_from_response[:name])
+      expect(spoken_language.iso_639_1).to eq(spoken_language_from_response.iso_639_1)
+      expect(spoken_language.name).to eq(spoken_language_from_response.name)
     end
 
     it "should fetch movie releases" do
@@ -332,9 +332,9 @@ describe Enceladus::Movie do
       release = movie.releases.first
       release_from_response = response.releases[:countries].first
 
-      expect(release.iso_3166_1).to eq(release_from_response[:iso_3166_1])
-      expect(release.certification).to eq(release_from_response[:certification])
-      expect(release.release_date).to eq(release_from_response[:release_date])
+      expect(release.iso_3166_1).to eq(release_from_response.iso_3166_1)
+      expect(release.certification).to eq(release_from_response.certification)
+      expect(release.release_date).to eq(release_from_response.release_date)
     end
 
     it "should fetch movie trailers" do
@@ -342,10 +342,10 @@ describe Enceladus::Movie do
       trailer = movie.youtube_trailers.first
       trailer_from_response = response.trailers[:youtube].first
 
-      expect(trailer.name).to eq(trailer_from_response[:name])
-      expect(trailer.size).to eq(trailer_from_response[:size])
-      expect(trailer.source).to eq(trailer_from_response[:source])
-      expect(trailer.type).to eq(trailer_from_response[:type])
+      expect(trailer.name).to eq(trailer_from_response.name)
+      expect(trailer.size).to eq(trailer_from_response.size)
+      expect(trailer.source).to eq(trailer_from_response.source)
+      expect(trailer.type).to eq(trailer_from_response.type)
     end
   end
 
