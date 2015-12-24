@@ -4,7 +4,7 @@ FactoryGirl.define do
     include_adult false
     iso_3166_1 "US"
     iso_639_1 "en"
-    name { Faker::Name.first_name }
-    username { Faker::Internet.email }
+    name { FFaker::Name.first_name }
+    username { FFaker::Internet.email }
   end
 end

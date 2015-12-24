@@ -1,15 +1,15 @@
 require "codeclimate-test-reporter"
-SimpleCov.start do
-  formatter SimpleCov::Formatter::MultiFormatter[SimpleCov::Formatter::HTMLFormatter,CodeClimate::TestReporter::Formatter]
-  add_filter "/support/responses"
-end
+
+SimpleCov.add_filter "/support/responses"
+SimpleCov.formatters = [ SimpleCov::Formatter::HTMLFormatter, CodeClimate::TestReporter::Formatter ]
+SimpleCov.start
 
 require 'rspec'
 require 'json'
 require 'webmock/rspec'
 require 'enceladus'
 require 'factory_girl'
-require 'faker'
+require 'ffaker'
 require File.dirname(__FILE__) + "/support/api_resource"
 
 RSpec.configure do |config|
