@@ -38,32 +38,49 @@ class Enceladus::Movie < Enceladus::ApiResource
   #   => 2
   #
   def self.upcoming
-    Enceladus::MovieCollection.new("movie/upcoming")
+    Enceladus::MovieCollection.new("movie/upcoming", Enceladus::Movie.default_params(only: :language))
   end
 
   # Returns a paginated collection of movies playing in theatres.
   def self.now_playing
-    Enceladus::MovieCollection.new("movie/now_playing")
+    Enceladus::MovieCollection.new("movie/now_playing", Enceladus::Movie.default_params(only: :language))
   end
 
   # Returns a paginated collection of popular movies.
   def self.popular
-    Enceladus::MovieCollection.new("movie/popular")
+    Enceladus::MovieCollection.new("movie/popular", Enceladus::Movie.default_params(only: :language))
   end
 
   # Returns a paginated collection of top rated movies.
   def self.top_rated
-    Enceladus::MovieCollection.new("movie/top_rated")
+    Enceladus::MovieCollection.new("movie/top_rated", Enceladus::Movie.default_params(only: :language))
   end
 
   # Given a movie, this method returns a paginated collection of similar movies.
   def similar
-    Enceladus::MovieCollection.new("movie/#{id}/similar", Enceladus::Movie.default_params)
+    Enceladus::MovieCollection.new("movie/#{id}/similar", Enceladus::Movie.default_params(only: [:language, :append_to_response]))
   end
 
   # Fetchs details of movie information on TMDb API.
   def reload
-    rebuild_single_resource(Enceladus::Requester.get("movie/#{id}"))
+    rebuild_single_resource(Enceladus::Requester.get("movie/#{id}", Enceladus::Movie.default_params))
+  end
+
+  # Returns a collection of alternative titles for a specific movie.
+  # A country can be specified to fetch alternative titles in a certain place. The country refers to the ISO code 3166-1.
+  # Invalid country codes returns empty collections.
+  # Examples:
+  #   movie = Enceladus::Movie.find_by_title("Star Wars").first
+  #
+  #   movie.alternative_titles("BR")
+  #   => #<Enceladus::AlternativeTitle @iso_3166_1="BR", @title="Star Wars: Episódio VII - O Despertar da Força">
+  #
+  #   movie.alternative_titles
+  #   => [#<Enceladus::AlternativeTitle @iso_3166_1="US", @title="Star Wars 7">, #<Enceladus::AlternativeTitle @iso_3166_1="ES", @title="Star Wars El despertar de la Fuerza">, ..., ...]
+  def alternative_titles(country=nil)
+    opts = Enceladus::Movie.default_params(only: :append_to_response)
+    opts = opts.merge(country: country) unless country.nil?
+    Enceladus::AlternativeTitle.build_collection(Enceladus::Requester.get("movie/#{id}/alternative_titles", opts).titles)
   end
 
   # Rate a movie.
@@ -155,10 +172,17 @@ private
     end
   end
 
-  def self.default_params
+  def self.default_params(opts = { only: [], except: [] })
+     opts[:only] =  *opts[:only]
+     opts[:except] =  *opts[:except]
+
     image_language = Enceladus::Configuration::Image.instance.include_image_language
     language = Enceladus::Configuration::Api.instance.language
     adult = Enceladus::Configuration::Api.instance.include_adult
-    { append_to_response: "releases,trailers", include_image_language: image_language, language: language, include_adult: adult }
+    params = { append_to_response: "releases,trailers", include_image_language: image_language, language: language, include_adult: adult }
+
+    params = params.select{ |k,_| opts[:only].include?(k) } if opts[:only] && opts[:only].any?
+    params = params.reject{ |k,_| opts[:except].include?(k) } if opts[:except] && opts[:except].any?
+    params
   end
 end

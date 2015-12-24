@@ -442,6 +442,34 @@ describe Enceladus::Movie do
     end
   end
 
+  describe "#alternative_titles" do
+    subject(:titles) { movie.alternative_titles(country) }
+    let(:movie) { Enceladus::Movie.new }
+    let(:movie_id) { 123 }
+    let(:response) { build(:alternative_title_response) }
+    let(:country) { nil }
+
+    before do
+      movie.id = movie_id
+      stub_request(:get, "https://api.themoviedb.org/3/movie/#{movie_id}/alternative_titles?api_key=token&append_to_response=releases,trailers").
+        to_return(status: 200, body: response.to_json)
+    end
+
+    it "should return a collection of Enceladus::AlternativeTitle" do
+      expect(titles.all?{ |alternative_title| alternative_title.kind_of?(Enceladus::Movie) })
+    end
+
+    describe "single alternative title resource" do
+      subject(:alternative_title) { titles.first }
+
+      [:title, :iso_3166_1].each do |attr|
+        it "should set Enceladus::AlternativeTitle##{attr}" do
+          expect(alternative_title.public_send(attr)).to eq(response.titles[0][attr])
+        end
+      end
+    end
+  end
+
   describe "#backdrop_urls" do
     subject { movie.backdrop_urls }
     let(:movie) { Enceladus::Movie.new }

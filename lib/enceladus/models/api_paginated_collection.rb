@@ -1,8 +1,7 @@
+# Provides the implementation to handle collection of paginated resources.
+# The collection of resources are cached locally, after going to next pages the previous pages do not make
+# any request to obtain the resources again.
 class Enceladus::ApiPaginatedCollection
-  # Provides the implementation to handle collection of paginated resources.
-  # The collection of resources are cached locally, after going to next pages the previous pages do not make
-  # any request to obtain the resources again.
-
   RESOURCE_CLASS = nil
 
   attr_reader :total_pages, :total_results, :path, :params, :results_per_page
