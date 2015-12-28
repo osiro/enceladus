@@ -1,16 +1,20 @@
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
 require "codeclimate-test-reporter"
 
-SimpleCov.add_filter "/support/responses"
+SimpleCov.add_filter "/spec"
 SimpleCov.formatters = [ SimpleCov::Formatter::HTMLFormatter, CodeClimate::TestReporter::Formatter ]
 SimpleCov.start
 
+require 'byebug'
 require 'rspec'
 require 'json'
 require 'webmock/rspec'
 require 'enceladus'
 require 'factory_girl'
 require 'ffaker'
-require File.dirname(__FILE__) + "/support/api_resource"
+require 'enceladus'
+Dir[(File.dirname(__FILE__) + "/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.mock_with :rspec

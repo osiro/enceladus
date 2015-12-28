@@ -1,6 +1,8 @@
 require 'singleton'
+require_relative '../requester'
 
 module Enceladus::Configuration
+  # This is a singleton class responsible get the data relevant to building image URLs.
   class Image
     include Singleton
 

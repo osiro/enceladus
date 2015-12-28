@@ -1,7 +1,9 @@
 require 'singleton'
 require 'uri'
+require_relative '../exceptions'
 
 module Enceladus::Configuration
+  # This is a singleton class that wraps base TMDb API details, such as base URL, api version and language.
   class Api
     include Singleton
 
@@ -22,14 +24,16 @@ module Enceladus::Configuration
     # Once the request has succeeded, Enceladus will populate the following Enceladus::Configuration::Image attributes:
     # base_url, secure_base_url, backdrop_sizes, logo_sizes, poster_sizes, profile_sizes and still_sizes.
     #
-    # A failing request will reset/nullify all those mentioned attributes.
+    # A failing request will reset/nullify all those attributes mentioned above.
     #
-    # Return a boolean indicating whether the request has succeeded or not.
+    # Returns a boolean indicating whether the request has succeeded or not.
     #
     # Examples:
-    #
     #   Enceladus::Configuration::Api.instance.connect("cceebf51cb1f8d707d10a132d9544b76")
     #
+    # Arguments:
+    #   api_key: (String) You can obtain an api key by signing up to TMDb (https://www.themoviedb.org/account/signup)
+    # 
     def connect(api_key)
       begin
         self.api_key = api_key
@@ -43,10 +47,14 @@ module Enceladus::Configuration
     end
 
     # Returns a string with a URL for one of TMDb API endpoints.
-    # Examples:
     #
+    # Examples:
     #   Enceladus::Configuration::Api.instance.url_for("movies", { term: "Lola Benvenutti" })
     #   => https://api.themoviedb.org/3/movies?term=Lola+Benvenutti&api_key=token
+    #
+    # Arguments:
+    #  action: (String) refers to a TMDb API path, like: "configuration", "movies", "tv"
+    #  params: (Hash) URL params used to make requests
     #
     def url_for(action, params={})
       params[:api_key] = api_key

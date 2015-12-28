@@ -1,5 +1,6 @@
 require 'rest_client'
 require 'hashugar'
+require_relative './logger'
 
 class Enceladus::Requester
   class << self

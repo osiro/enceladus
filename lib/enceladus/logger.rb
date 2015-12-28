@@ -3,7 +3,7 @@ require 'singleton'
 
 # Logger is a class implemented by using the singleton pattern mainly responsible for loggin requests, responses and exceptions.
 # Examples:
-#   Enceladus::Logger.log.error { "Woops! Something when wrong..." }
+#   Enceladus::Logger.log.error { "Woops! Something went wrong..." }
 #   Enceladus::Logger.log.info { "Yay! That works like a charm!" }
 #   Enceladus::Logger.log.warn { "Hummm... code smells here..." }
 #   Enceladus::Logger.log.fatal { "Game over..." }
@@ -26,7 +26,6 @@ class Enceladus::Logger < Logger
     # Defines where to log messages.
     # Example:
     #   Enceladus::Logger.logger_output = Rails.root.join("log", "enceladus.log")
-    #
     def logger_output=(output)
       @@logger_output = output
     end
