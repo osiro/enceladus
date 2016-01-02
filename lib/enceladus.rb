@@ -22,7 +22,15 @@ module Enceladus
   #   Enceladus.connect("0f76454c7b22300e457800cc20f24ae9")
   #   Enceladus.connect("0f76454c7b22300e457800cc20f24ae9", { include_image_language: "pt", language: "pt", include_adult: true })
   #
-  def self.connect(api_key, options={})
+  #   cache_client = Dalli::Client.new('localhost:11211', { namespace: "enceladus", compress: true })
+  #   Enceladus.connect("0f76454c7b22300e457800cc20f24ae9", { include_image_language: "pt", language: "pt", include_adult: true }, cache_client)
+  #
+  # Arguments:
+  #   api_key: (String) You can obtain an api key by signing up to TMDb (https://www.themoviedb.org/account/signup)
+  #   options: (Hash) You can provide the keys: include_image_language, include_adult and language
+  #   cache_client: An instance of a cache client, such as Dalli.
+  def self.connect(api_key, options={}, cache_client=nil)
+    Enceladus::Configuration::Cache.instance.client = cache_client
     Enceladus::Configuration::Image.instance.include_image_language = options[:include_image_language] || "en"
     
     api = Enceladus::Configuration::Api.instance

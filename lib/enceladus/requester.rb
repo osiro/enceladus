@@ -1,6 +1,7 @@
 require 'rest_client'
 require 'hashugar'
 require_relative './logger'
+require_relative './configuration/cache'
 
 class Enceladus::Requester
   class << self
@@ -16,7 +17,7 @@ class Enceladus::Requester
       url = api.url_for(action, params)
       Enceladus::Logger.log.info { "About to request: #{url}" }
       perform_request do
-        parse_response(RestClient.get(url, request_headers))
+        make_get_request(url)
       end
     end
 
@@ -63,6 +64,16 @@ class Enceladus::Requester
         end
 
         raise Enceladus::Exception::Api.new(message.join(" "))
+      end
+    end
+
+    # Performs get requests and returns response bodies as JSON.
+    # The response body is cached if a cache client has been provided to Enceladus.connect.
+    def make_get_request(url)
+      if cache_client = Enceladus::Configuration::Cache.instance.client
+        cache_client.fetch(url) { parse_response(RestClient.get(url, request_headers)) }
+      else
+        parse_response(RestClient.get(url, request_headers))
       end
     end
 
